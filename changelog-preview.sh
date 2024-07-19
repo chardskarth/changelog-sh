@@ -13,8 +13,14 @@ function _changelogsh_preview {
 
     for dir in $(ls -rd changelog/*); do
       expanded=$(echo ${dir/changelog\//})
-      raw=$(_changelogsh_expanded_to_raw $expanded)
-      echo "## [$raw]"
+
+      if [ $expanded == "unreleased" ]; then
+        changelogheader="## Unreleased"
+      else
+        changelogheader="## [$(_changelogsh_expanded_to_raw $expanded)]"
+      fi
+
+      echo $changelogheader
 
       _changelogsh_preview_expanded $expanded
     done;
